@@ -457,38 +457,57 @@ describe('rules/disallow-newline-before-block-statements', function() {
         it('misc checks', function() {
             expect(checker.checkString('function foo(a,b) { }'))
                 .to.have.no.errors();
-
+        });
+        it('1', function() {
             expect(checker.checkString('function foo(a,\nb) { }'))
                 .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
-
+        });
+        it('2', function() {
             expect(checker.checkString('switch((function(){}\n())) { }'))
                 .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
-
+        });
+        it('3', function() {
             expect(checker.checkString('function foo() { for (var i=0; i<len; i++) { } }'))
                 .to.have.no.errors();
-
+        });
+        it('4', function() {
             expect(checker.checkString('function foo() { for (var i=0; i<len;\ni++) { } }'))
                 .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
-
+        });
+        it('5', function() {
             expect(checker.checkString('function foo() { for (var i=0; i<len;\ni++)\n{ } }'))
                 .to.have.no.errors();
-
+        });
+        it('6', function() {
             expect(checker.checkString('function foo() { if (true) { } }'))
                 .to.have.no.errors();
-
+        });
+        it('7', function() {
             expect(checker.checkString('function foo() { if (a && b()) { } }'))
                 .to.have.no.errors();
-
+        });
+        it('8', function() {
             expect(checker.checkString('function foo() { if (a &&\nb()) { } }'))
                 .to.have.one.validation.error.from('disallowNewlineBeforeBlockStatements');
-
+        });
+        it('9', function() {
             expect(checker.checkString('function foo() { if (a &&\nb())\n{ } }'))
                 .to.have.no.errors();
-
+        });
+        it('10', function() {
             expect(checker.checkString('(function () {}())'))
                 .to.have.no.errors();
-
+        });
+        it('11', function() {
             expect(checker.checkString('try {\n\ty++;\n} catch(e) {\n}'))
+                .to.have.no.errors();
+        });
+        it('12', function() {
+            expect(checker.checkString('function test() {\n if (false) {\n f();\n } else {\n }\n }'))
+                .to.have.no.errors();
+        });
+        it('13', function() {
+            expect(checker.checkString('f();\ntry {\n} catch (e) {\nf();\n} finally {\n}'))
                 .to.have.no.errors();
         });
 
